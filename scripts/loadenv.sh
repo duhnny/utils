@@ -38,13 +38,13 @@ newline="
 # load env variables
 while read -r line; do
     if [[ $line =~ ^([0-9a-zA-Z_]+)\=(.+)$ ]]; then
-        export ${prefix:+${prefix^^}_}${BASH_REMATCH[1]}=${BASH_REMATCH[2]}
+        export ${prefix:+${prefix^^}_}${BASH_REMATCH[1]}="${BASH_REMATCH[2]}"
 
         env_variables="${env_variables}${prefix:+${prefix^^}_}${BASH_REMATCH[1]}${newline}"
 
         if [[ $uri == true ]]; then
             uri_encoded="$(python3 -c "from urllib.parse import quote; print(quote('${BASH_REMATCH[2]}'))")"
-            export ${prefix:+${prefix^^}_}${BASH_REMATCH[1]}_URIENCODED=${uri_encoded}
+            export ${prefix:+${prefix^^}_}${BASH_REMATCH[1]}_URIENCODED="${uri_encoded}"
         fi
     fi
 done
